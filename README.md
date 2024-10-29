@@ -62,6 +62,94 @@ void loop() {
 
 
 
+# sketch_oct29c.ino |  漸變控制程式
+
+### 硬體定義
+```cpp
+#define R 32        // 紅色 LED 腳位
+#define G 33        // 綠色 LED 腳位
+#define B 25        // 藍色 LED 腳位
+#define buttonPin 26 // 按鈕腳位
+```
+
+### 全域變數
+```cpp
+int buttonState;            // 當前按鈕狀態
+int lastButtonState = HIGH; // 上一次按鈕狀態
+int currentStep = 0;        // 當前執行步驟
+int brightness = 0;         // LED 亮度值
+bool increasing = true;     // 亮度增加控制旗標
+```
+
+### 程式功能說明
+
+**初始化設定（setup）**
+```cpp
+void setup() {
+  Serial.begin(9600);
+  pinMode(R, OUTPUT);
+  pinMode(G, OUTPUT);
+  pinMode(B, OUTPUT);
+  pinMode(buttonPin, INPUT_PULLUP);
+  
+  digitalWrite(R, LOW);
+  digitalWrite(G, LOW);
+  digitalWrite(B, LOW);
+}
+```
+
+**主要控制流程**
+
+1. **按鈕控制邏輯**
+```cpp
+if (buttonState == LOW && lastButtonState == HIGH) {
+    currentStep++;
+    if (currentStep > 3) {
+        currentStep = 0;
+        // 重置所有 LED
+    }
+    brightness = 0;
+    increasing = true;
+    delay(50);  // 防彈跳延遲
+}
+```
+
+2. **LED 控制步驟**
+- **步驟 0**：紅色 LED 漸增至 200
+  - 亮度範圍：0-200
+  - 其他 LED 保持關閉
+
+- **步驟 1**：綠色 LED 漸增
+  - 亮度範圍：0-255
+  - 保持紅色 LED 狀態
+
+- **步驟 2**：藍色 LED 漸增
+  - 亮度範圍：0-255
+  - 保持其他 LED 狀態
+
+- **步驟 3**：紅色 LED 繼續漸增
+  - 亮度範圍：200-255
+  - 保持其他 LED 狀態
+
+### 技術特點
+- 使用 `switch-case` 結構管理不同步驟
+- 按鈕防彈跳處理
+- LED 漸變效果實現
+- 多步驟 LED 控制
+- 自動循環功能
+
+### 控制參數
+- LED 漸變速度：`delay(10)`
+- 按鈕防彈跳延遲：`delay(50)`
+- 紅色 LED 初始最大值：200
+- 綠色和藍色 LED 最大值：255
+
+### 使用說明
+1. 程式啟動時，紅色 LED 自動從 0 漸增到 200
+2. 按下按鈕後，綠色 LED 從 0 漸增到 255
+3. 再次按下按鈕，藍色 LED 從 0 漸增到 255
+4. 第三次按下按鈕，紅色 LED 從 200 漸增到 255
+5. 第四次按下按鈕，所有 LED 重置為 0，回到步驟 1
 
 
 # sketch_oct29d.ino  |  按鈕控制程式
