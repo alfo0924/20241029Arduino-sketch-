@@ -1,6 +1,6 @@
 
 
-## sketch_oct29a.in | 基礎 RGB LED 控制
+# sketch_oct29a.in | 基礎 RGB LED 控制
 
 
 
@@ -33,7 +33,7 @@ void loop() {
 - 沒有互動功能
 - 循環執行，達到最大亮度後會重新開始
 
-### sketch_oct29b.ino：進階按鈕控制 RGB LED
+# sketch_oct29b.in | 進階按鈕控制 RGB LED
 
 
 ```cpp
